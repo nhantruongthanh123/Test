@@ -11,44 +11,41 @@ int getNum(string s, int l, int r)
     return res;
 }
 
-void check(int curr_sum, string s, int l, int target, bool &flag)
+bool check(string s, int curr_sum, int i, int target)
 {
-    if (l == s.length())
+    if (i == s.length())
     {
-        if (curr_sum == target)
-            flag = true;
-        return;
+        return curr_sum == target;
     }
     else
     {
-        for (; l < s.size(); l++)
+        for (int t = i; t < s.length(); t++)
         {
-            int val = getNum(s, 0, l);
+            int val = getNum(s, i, t);
+            if (check(s, curr_sum + val, t + 1, target))
+            {
+                return true;
+            }
         }
     }
+    return false;
 }
 
 bool isPunish(int n)
 {
-    string num = to_string(n);
+    string num = to_string(n * n);
+    return check(num, 0, 0, n);
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    while (n != -1)
+
+    for (int i = 1; i <= 1000; i++)
     {
-        if (isPunish(n))
+        if (isPunish(i))
         {
-            cout << "YES";
+            cout << i << " ";
         }
-        else
-        {
-            cout << "NO";
-        }
-        cout << endl;
-        cin >> n;
     }
 
     return 0;
